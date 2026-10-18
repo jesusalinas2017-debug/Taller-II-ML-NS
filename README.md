@@ -1,10 +1,10 @@
-# ¿Qué ingrediente le falta a tu receta? 🍳
+# ¿Qué ingrediente le falta a tu receta?
 
 **Certamen 2 — Reglas de asociación y sistemas de recomendación**
 Aprendizaje no supervisado · UDD · Docente: Danilo Gómez Correa
 **Grupo 2:** Lucas Torres Baeza · María Jesús Salinas
 
-🔗 **Dashboard publicado:** https://<app>.streamlit.app  ← *reemplazar por el link de Streamlit Community Cloud*
+**Dashboard publicado:** https://taller-ii-ml-ns.streamlit.app
 
 ---
 
@@ -72,17 +72,18 @@ streamlit run app.py
 
 1. Entrar a [share.streamlit.io](https://share.streamlit.io) con la cuenta de GitHub.
 2. *Create app* → elegir este repositorio, rama `main` y archivo `app.py`.
-3. Copiar el link público en este README y en la entrega de Canvas.
+3. En *Advanced settings* elegir **Python 3.12** (con 3.14 la instalación de pandas se queda pegada).
+4. Copiar el link público en este README y en la entrega de Canvas.
 
 ## Módulos del dashboard
 
 | Pestaña | Contenido |
 |---|---|
-| 📊 Resumen | Transacciones, ingredientes, densidad, ingredientes más frecuentes y embudo de reglas |
-| 🔎 Explorador de reglas | Filtros de soporte, confianza y lift; Fisher y redundancia; filtro por ingrediente en antecedente o consecuente; tabla ordenable y descarga CSV |
-| 🕸️ Visualizaciones | Dispersión soporte–confianza coloreada por lift, grafo de reglas y mapa de flujo (pyvis) |
-| 🧺 Recomendador | Canasta con selección múltiple; N sugerencias con regla, confianza y lift; lift, confianza o híbrido; avisa cuando usa el respaldo de populares |
-| 🎯 Evaluación | Tabla y gráfico de HitRate@N frente a la línea base, cobertura y precisión vs. novedad |
+| Resumen | Transacciones, ingredientes, densidad, ingredientes más frecuentes y embudo de reglas |
+| Explorador de reglas | Filtros de soporte, confianza y lift; Fisher y redundancia; filtro por ingrediente en antecedente o consecuente; tabla ordenable y descarga CSV |
+| Visualizaciones | Dispersión soporte–confianza coloreada por lift, grafo de reglas y mapa de flujo (pyvis) |
+| Recomendador | Canasta con selección múltiple; N sugerencias con regla, confianza y lift; lift, confianza o híbrido; avisa cuando usa el respaldo de populares |
+| Evaluación | Tabla y gráfico de HitRate@N frente a la línea base, cobertura y precisión vs. novedad |
 
 ## Uso de inteligencia artificial
 

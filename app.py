@@ -8,6 +8,8 @@
 # Ejecutar en local:   streamlit run app.py
 # =============================================================================
 
+import os
+
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -16,9 +18,12 @@ import plotly.express as px
 from plotly.colors import sample_colorscale
 from pyvis.network import Network
 
-st.set_page_config(page_title="¿Qué le falta a tu receta?", page_icon="🍳", layout="wide")
+st.set_page_config(page_title="¿Qué le falta a tu receta?", layout="wide")
 
-CARPETA = "data"
+# Carpeta de los CSV: data/ (estructura del repositorio). Si los CSV quedaron sueltos junto a app.py,
+# también los encuentra, así la app no se cae por cómo se subieron los archivos a GitHub.
+BASE = os.path.dirname(os.path.abspath(__file__))
+CARPETA = os.path.join(BASE, "data") if os.path.isdir(os.path.join(BASE, "data")) else BASE
 AZUL = "#0b1f45"
 GRIS = "#52607a"
 ROJO = "#c0392b"
@@ -81,9 +86,9 @@ def miles(x):
 
 
 def color_lift(valor, minimo, maximo):
-    # Tono de rojo según el lift: más oscuro = asociación más fuerte (igual idea que en el notebook)
+    # Tono de azul según el lift: más oscuro = asociación más fuerte (igual idea que en el notebook)
     proporcion = (valor - minimo) / (maximo - minimo) if maximo > minimo else 1
-    return sample_colorscale("Reds", [0.25 + 0.75 * proporcion])[0]
+    return sample_colorscale("Blues", [0.35 + 0.65 * proporcion])[0]
 
 
 # -----------------------------------------------------------------------------
@@ -187,7 +192,7 @@ def mapa_flujo(tabla, alto=600):
 # -----------------------------------------------------------------------------
 # 4. Barra lateral: filtros de reglas (aplican al Explorador y a las Visualizaciones)
 # -----------------------------------------------------------------------------
-st.sidebar.title("🍳 ¿Qué le falta a tu receta?")
+st.sidebar.title("¿Qué le falta a tu receta?")
 st.sidebar.caption("Análisis de canasta sobre recetas de Food.com · Grupo 2")
 st.sidebar.header("Filtros de reglas")
 st.sidebar.caption("Aplican a las pestañas **Explorador** y **Visualizaciones**. Las reglas se minaron "
@@ -228,7 +233,7 @@ st.markdown("Reglas de asociación y recomendador *“quienes usan estos ingredi
             "sobre recetas de **Food.com**. **Transacción** = una receta · **Ítem** = un ingrediente normalizado.")
 
 tab_resumen, tab_explorador, tab_visual, tab_rec, tab_eval = st.tabs(
-    ["📊 Resumen", "🔎 Explorador de reglas", "🕸️ Visualizaciones", "🧺 Recomendador", "🎯 Evaluación"])
+    ["Resumen", "Explorador de reglas", "Visualizaciones", "Recomendador", "Evaluación"])
 
 # ---------------------------- 5.1 Resumen de datos ---------------------------
 with tab_resumen:
@@ -259,7 +264,7 @@ with tab_resumen:
                       "Significativas y no redundantes"],
             "reglas": [resumen["reglas_minadas"], resumen["reglas_significativas"], resumen["reglas_finales"]],
         })
-        fig = px.funnel(embudo, x="reglas", y="etapa", color_discrete_sequence=[ROJO], height=300)
+        fig = px.funnel(embudo, x="reglas", y="etapa", color_discrete_sequence=[AZUL], height=300)
         fig.update_layout(yaxis_title=None)
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("- **Cola larga:** `salt` está en el 53 % de las recetas; la mayoría de los ingredientes, en menos del 2 %.\n"
@@ -288,7 +293,7 @@ with tab_explorador:
             "p_ajustado": st.column_config.NumberColumn("p ajustado (Holm)", format="%.1e"),
         },
     )
-    st.download_button("⬇️ Descargar estas reglas (CSV)", tabla.to_csv(index=False).encode("utf-8"),
+    st.download_button("Descargar estas reglas (CSV)", tabla.to_csv(index=False).encode("utf-8"),
                        file_name="reglas_filtradas.csv", mime="text/csv")
 
 # ---------------------------- 5.3 Visualizaciones ----------------------------
@@ -298,11 +303,11 @@ with tab_visual:
     else:
         fig = px.scatter(filtradas, x="soporte", y="confianza", color="lift", hover_name="regla",
                          hover_data={"soporte": ":.4f", "confianza": ":.3f", "lift": ":.2f"},
-                         color_continuous_scale="Reds", height=480,
+                         color_continuous_scale="Blues", height=480,
                          title=f"Soporte vs. confianza de {len(filtradas)} reglas (color = lift)")
         fig.update_traces(marker=dict(size=8, line=dict(width=0.3, color="white")))
         st.plotly_chart(fig, use_container_width=True)
-        st.caption("Las reglas de mayor lift (rojo oscuro) tienen soporte bajo: las asociaciones fuertes son de nicho.")
+        st.caption("Las reglas de mayor lift (azul oscuro) tienen soporte bajo: las asociaciones fuertes son de nicho.")
 
         st.divider()
         tipo = st.radio("Tipo de grafo", ["Grafo de reglas", "Mapa de flujo ingrediente → ingrediente"],
