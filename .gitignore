@@ -1,0 +1,11 @@
+# Datos crudos de Kaggle (pesan ~290 MB: superan el límite de GitHub)
+data_raw/
+archive.zip
+*.pkl
+RAW_*.csv
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+_respaldo/

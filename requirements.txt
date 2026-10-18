@@ -1,0 +1,12 @@
+# --- Dashboard (lo que instala Streamlit Community Cloud) ---
+streamlit==1.45.1
+pandas==2.2.3
+numpy>=1.26
+plotly==5.24.1
+pyvis==0.3.2
+
+# --- Notebook (análisis en Colab) ---
+mlxtend==0.23.4
+scipy>=1.11
+statsmodels>=0.14
+matplotlib>=3.8
